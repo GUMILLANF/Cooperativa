@@ -1,0 +1,39 @@
+logging:
+  level:
+    br:
+      com:
+        gumillanf: INFO
+
+spring:
+  application:
+    name: cooperativa
+
+  flyway:
+    baseline-on-migrate: true
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        order_inserts: true
+        order_updates: true
+        batch_size: 1000
+        rewriteBatchedStatements: true
+        cachePrepStmts: true
+        useServerPrepStmts: true
+        generate_statistics: false
+        format_sql: true
+
+  datasource:
+    url: jdbc:postgres://nmsfbhvjdxrdms:b38a153dd48f0ed074cff8d90377f0e0629628637bfb9a2660c9581f56667c7d@ec2-34-225-103-117.compute-1.amazonaws.com:5432/df6kh8im7be3i4
+    username: nmsfbhvjdxrdms
+    password: b38a153dd48f0ed074cff8d90377f0e0629628637bfb9a2660c9581f56667c7d
+    driver-class-name: org.postgresql.Driver
+
+app:
+  schedule:
+    finalized: 0 0/5 * * * *

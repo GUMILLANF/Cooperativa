@@ -1,3 +1,9 @@
+logging:
+  level:
+    br:
+      com:
+        gumillanf: DEBUG
+
 server:
   port: 8081
 
