@@ -1,0 +1,37 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: cooperativa
+
+  flyway:
+    baseline-on-migrate: true
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        order_inserts: true
+        order_updates: true
+        batch_size: 1000
+        rewriteBatchedStatements: true
+        cachePrepStmts: true
+        useServerPrepStmts: true
+        generate_statistics: false
+        format_sql: true
+
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/cooperativa
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+app:
+  schedule:
+    finalized: 0 0/5 * * * *
+
