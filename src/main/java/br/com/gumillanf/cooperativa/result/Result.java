@@ -11,8 +11,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-import static br.com.gumillanf.cooperativa.result.FinalResult.*;
-
 @Entity
 @Data
 @Builder
@@ -41,12 +39,6 @@ public class Result implements Serializable {
 
     public Long getAgendaId() {
         return this.getAgenda().getId();
-    }
-
-    public static Result of(Agenda agenda, Integer amountYes, Integer amountNo) {
-        return Result.builder().agenda(agenda).amountYes(amountYes).amountNo(amountNo)
-                .finalResult(amountYes > amountNo ? APPROVED_AGENDA : (amountYes < amountNo ? UNAPPROVED_AGENDA : UNDEFINED))
-                .build();
     }
 
 }

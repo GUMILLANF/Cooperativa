@@ -21,4 +21,8 @@ public class VoteQuery {
         return voteRepository.findAll(specification);
     }
 
+    public Integer count(Specification<Vote> specification) {
+        return (int)voteRepository.count(specification);
+    }
+
 }

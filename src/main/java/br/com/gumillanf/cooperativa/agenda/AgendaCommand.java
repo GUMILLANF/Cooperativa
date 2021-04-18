@@ -1,10 +1,12 @@
 package br.com.gumillanf.cooperativa.agenda;
 
+import br.com.gumillanf.cooperativa.agenda.integration.ResultEvent;
+import br.com.gumillanf.cooperativa.agenda.integration.ResultSendMessage;
 import br.com.gumillanf.cooperativa.commons.AppMessageSource;
 import br.com.gumillanf.cooperativa.config.exception.ResourceNotFoundException;
 import br.com.gumillanf.cooperativa.config.exception.ActionNotAllowedException;
-import br.com.gumillanf.cooperativa.result.ResultCommand;
 import br.com.gumillanf.cooperativa.vote.VoteQuery;
+import br.com.gumillanf.cooperativa.vote.VoteResponse;
 import br.com.gumillanf.cooperativa.vote.VoteSpecification;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 
 import static br.com.gumillanf.cooperativa.commons.uitls.AppBeanUtils.copyNonNullProperties;
 import static br.com.gumillanf.cooperativa.agenda.AgendaStatus.WAITING;
+import static br.com.gumillanf.cooperativa.result.FinalResult.*;
 
 @Service
 @AllArgsConstructor
@@ -27,7 +30,7 @@ public class AgendaCommand {
 
     private final VoteQuery voteQuery;
 
-    private final ResultCommand resultCommand;
+    private final ResultSendMessage resultSendMessage;
 
     private final AppMessageSource messageSource;
 
@@ -53,8 +56,14 @@ public class AgendaCommand {
 
     public void finish() {
         List<Agenda> agendaList = agendaQuery.findToFinish().stream().map(Agenda::finish).collect(Collectors.toList());
-        agendaList.forEach(a -> resultCommand.create(a, voteQuery.findAll(VoteSpecification.voteAgendaId(a))));
         agendaRepository.saveAll(agendaList);
+        agendaList.forEach(a -> {
+            Integer amountYes = voteQuery.count(VoteSpecification.voteAgendaId(a).and(VoteSpecification.voteResponse(VoteResponse.YES)));
+            Integer amountNo = voteQuery.count(VoteSpecification.voteAgendaId(a).and(VoteSpecification.voteResponse(VoteResponse.NO)));
+            ResultEvent event = ResultEvent.of(a, amountYes, amountNo,
+                    (amountYes > amountNo ? APPROVED_AGENDA : (amountYes < amountNo ? UNAPPROVED_AGENDA : UNDEFINED)).name());
+            resultSendMessage.sendMessage(event);
+        });
     }
 
     public void delete(Long id) throws ResourceNotFoundException, ActionNotAllowedException {

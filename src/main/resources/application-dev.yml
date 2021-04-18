@@ -11,6 +11,18 @@ spring:
   application:
     name: cooperativa
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    exchange:
+      result: exchangeresult
+    queue:
+      result: queueresult
+    routingkey:
+      result: routingkeyresult
+
   flyway:
     baseline-on-migrate: true
 
