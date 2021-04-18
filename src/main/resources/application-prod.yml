@@ -11,7 +11,7 @@ spring:
   rabbitmq:
     host: jaguar.rmq.cloudamqp.com
     port: 1883
-    username: fwusscha:fwusscha
+    username: fwusscha
     password: eXmyLQ8wG3yoL4IjRHh__SUIDz7KXeWy
     exchange:
       result: exchangeresult
