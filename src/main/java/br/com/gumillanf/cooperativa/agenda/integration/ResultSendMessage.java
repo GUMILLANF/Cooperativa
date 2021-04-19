@@ -21,7 +21,7 @@ public class ResultSendMessage {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void sendMessage(ResultEvent event) {
+    public void sendMessage(ResultCreateEvent event) {
         rabbitTemplate.convertAndSend(exchange, routingKey, event);
     }
 

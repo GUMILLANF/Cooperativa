@@ -1,6 +1,6 @@
 package br.com.gumillanf.cooperativa.agenda;
 
-import br.com.gumillanf.cooperativa.agenda.integration.ResultEvent;
+import br.com.gumillanf.cooperativa.agenda.integration.ResultCreateEvent;
 import br.com.gumillanf.cooperativa.agenda.integration.ResultSendMessage;
 import br.com.gumillanf.cooperativa.commons.AppMessageSource;
 import br.com.gumillanf.cooperativa.config.exception.ResourceNotFoundException;
@@ -42,7 +42,6 @@ public class AgendaCommand {
         Agenda savedAgenda = findById(id);
         copyNonNullProperties(agenda, savedAgenda);
         agendaRepository.save(savedAgenda);
-
     }
 
     public void start(Long id, Integer minutesToEnd) throws ResourceNotFoundException, ActionNotAllowedException {
@@ -60,7 +59,7 @@ public class AgendaCommand {
         agendaList.forEach(a -> {
             Integer amountYes = voteQuery.count(VoteSpecification.voteAgendaId(a).and(VoteSpecification.voteResponse(VoteResponse.YES)));
             Integer amountNo = voteQuery.count(VoteSpecification.voteAgendaId(a).and(VoteSpecification.voteResponse(VoteResponse.NO)));
-            ResultEvent event = ResultEvent.of(a, amountYes, amountNo,
+            ResultCreateEvent event = ResultCreateEvent.of(a, amountYes, amountNo,
                     (amountYes > amountNo ? APPROVED_AGENDA : (amountYes < amountNo ? UNAPPROVED_AGENDA : UNDEFINED)).name());
             resultSendMessage.sendMessage(event);
         });

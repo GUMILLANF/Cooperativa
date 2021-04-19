@@ -11,7 +11,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @NoArgsConstructor(access = PRIVATE)
-class AgendaResource {
+public class AgendaResource {
 
     @NotEmpty
     private String description;

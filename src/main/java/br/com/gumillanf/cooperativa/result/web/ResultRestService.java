@@ -14,16 +14,24 @@ public class ResultRestService {
 
     private final ResultQuery resultQuery;
 
+    private final ResultAssemblerSupport resultAssemblerSupport;
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity findByFinalResult(@RequestParam FinalResult finalResult) {
+    public ResponseEntity findByFinalResult(@RequestParam(defaultValue = "APPROVED_AGENDA") FinalResult finalResult) {
         return ResponseEntity.ok(resultQuery.findByFinalResult(finalResult));
+    }
+
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity findAll() {
+        return ResponseEntity.ok(resultQuery.findAll());
     }
 
     @GetMapping("/agenda/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity findByAgendaId(@PathVariable Long id) throws Throwable {
-        return ResponseEntity.ok(resultQuery.findByAgenda(id));
+        return ResponseEntity.ok(resultAssemblerSupport.toModel(resultQuery.findByAgenda(id)));
     }
 
 }

@@ -3,7 +3,7 @@ package br.com.gumillanf.cooperativa.vote;
 import br.com.gumillanf.cooperativa.agenda.Agenda;
 import br.com.gumillanf.cooperativa.agenda.AgendaQuery;
 import br.com.gumillanf.cooperativa.commons.AppMessageSource;
-import br.com.gumillanf.cooperativa.commons.uitls.AppValidationUtils;
+import br.com.gumillanf.cooperativa.commons.core.AppUtils;
 import br.com.gumillanf.cooperativa.config.exception.ActionNotAllowedException;
 import br.com.gumillanf.cooperativa.config.exception.InvalidCpfException;
 import br.com.gumillanf.cooperativa.vote.web.VoteResource;
@@ -27,6 +27,8 @@ public class VoteCommand {
 
     private final AppMessageSource messageSource;
 
+    private final AppUtils appUtils;
+
     public Vote create(VoteResource voteResource) throws Throwable {
         Agenda agenda = agendaQuery.findOne(voteResource.getAgendaId());
         Vote vote = of(voteResource, agenda);
@@ -43,19 +45,12 @@ public class VoteCommand {
             throw new ActionNotAllowedException(messageSource.getMessage("vote.cpf-already-voted",
                     new Object[] { vote.getId().getAssocietedCpf() }));
         }
-        if (!validateCpf(vote.getId().getAssocietedCpf())) {
+        if (!appUtils.validateCpf(vote.getId().getAssocietedCpf())) {
             throw new ActionNotAllowedException(messageSource.getMessage("vote.cpf-not-allowed",
                     new Object[] { vote.getId().getAssocietedCpf() }));
         }
     }
 
-    private boolean validateCpf(String cpf) throws InvalidCpfException {
-        try {
-            return AppValidationUtils.validCpf(cpf);
-        } catch (Exception ex) {
-            throw new InvalidCpfException(messageSource.getMessage("vote.invalid-cpf",
-                    new Object[] { cpf }));
-        }
-    }
+
 
 }

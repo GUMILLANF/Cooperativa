@@ -9,7 +9,7 @@ import lombok.*;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ResultEvent {
+public class ResultCreateEvent {
 
     private Long agendaId;
 
@@ -19,8 +19,8 @@ public class ResultEvent {
 
     private String finalResult;
 
-    public static ResultEvent of(Agenda agenda, Integer amountYes, Integer amountNo, String finalResult) {
-        return ResultEvent.builder().agendaId(agenda.getId()).amountYes(amountYes)
+    public static ResultCreateEvent of(Agenda agenda, Integer amountYes, Integer amountNo, String finalResult) {
+        return ResultCreateEvent.builder().agendaId(agenda.getId()).amountYes(amountYes)
                 .amountNo(amountNo).finalResult(finalResult).build();
     }
 

@@ -1,8 +1,5 @@
 package br.com.gumillanf.cooperativa.agenda;
 
-import br.com.gumillanf.cooperativa.vote.Vote;
-import br.com.gumillanf.cooperativa.vote.VoteId;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

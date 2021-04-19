@@ -18,6 +18,11 @@
 		<validation-api.version>2.0.1.Final</validation-api.version>
 		<commons-lang3.version>3.10</commons-lang3.version>
 		<spring-cloud.version>Hoxton.SR9</spring-cloud.version>
+		<powermock.version>2.0.0-RC.4</powermock.version>
+		<fixture-factory.version>3.1.0</fixture-factory.version>
+		<spring-cloud-contract.version>2.1.1.RELEASE</spring-cloud-contract.version>
+		<spring-fox-ui.version>2.9.2</spring-fox-ui.version>
+		<spring-swagger2.version>2.9.2</spring-swagger2.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -72,6 +77,38 @@
 			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>br.com.six2six</groupId>
+			<artifactId>fixture-factory</artifactId>
+			<version>${fixture-factory.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>spring-mock-mvc</artifactId>
+			<version>3.0.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-contract-verifier</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -83,6 +120,18 @@
 			</exclusions>
 		</dependency>
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>
@@ -124,6 +173,21 @@
 						<version>${hibernate.version}</version>
 					</dependency>
 				</dependencies>
+			</plugin>
+
+			<plugin>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-contract-maven-plugin</artifactId>
+				<version>${spring-cloud-contract.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<baseClassMappings>
+						<baseClassMapping>
+							<contractPackageRegex>voteweb</contractPackageRegex>
+							<baseClassFQN>br.com.gumillanf.cooperativa.vote.web.VoteWebBase</baseClassFQN>
+						</baseClassMapping>
+					</baseClassMappings>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

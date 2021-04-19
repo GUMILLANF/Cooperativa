@@ -27,4 +27,8 @@ public class ResultQuery {
         return resultRepository.findAll(resultFinalResult(finalResult));
     }
 
+    public List<Result> findAll() {
+        return resultRepository.findAll();
+    }
+
 }
