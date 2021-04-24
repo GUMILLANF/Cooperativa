@@ -1,4 +1,4 @@
-#API Rest com Spring, Postgres e Rabbitmq.
+<h1 align="center">API Rest com Spring, Postgres e Rabbitmq.</h1>
 
 *Código organizado por negócio, dentro de cada package está contido tudo sobre uma determinada entidade.
 
@@ -12,7 +12,8 @@
 - package integration (contém classes referentes a messageria)
 
 *Basicamente o funcionamento da API é o seguinte:*
-**Contém 3 classes e tabelas diferentes. Classe de Agenda(Pauta), Vote(Votos) e Result(Resultado da votação da pauta)**
+
+**Contém 3 classes e tabelas diferentes, classe de Agenda(Pauta), Vote(Votos) e Result(Resultado da votação da pauta)**
 1. Agenda(Pauta):
     - Criar uma nova pauta que nasce com o status de Wating
     - Alterar uma pauta (só é possível alterar pauta com o status Waiting)
@@ -39,14 +40,15 @@
 
 ---
 
-###Executar com docker:
+<h3>Executar com docker:</h3>
+
 **Basta executar dentro da pasta raiz do projeto o comando:**
 
 `docker-compose up`
 
 E depois compilar o projeto.
 
-#####Ou
+<h4>Ou</h4>
 
 **Basta executar os seguintes comandos docker:**
 
@@ -58,7 +60,7 @@ E depois compilar o projeto.
 
 ---
 
-###Executar sem docker:
+<h4>Executar sem docker:<h4>
 
 Iniciar banco postgresql.
 
