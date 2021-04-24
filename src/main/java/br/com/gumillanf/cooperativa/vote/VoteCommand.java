@@ -39,7 +39,7 @@ public class VoteCommand {
     private void validations(Vote vote, Agenda agenda) throws ActionNotAllowedException, InvalidCpfException {
         if (!agenda.isOpen()) {
             throw new ActionNotAllowedException(messageSource.getMessage("agenda.closed",
-                    new Object[] { vote.getId() }));
+                    new Object[] { vote.getId().getAgenda().getId() }));
         }
         if (voteQuery.findOne(voteAgendaId(vote.getId().getAgenda()).and(voteAssocietedCpf(vote.getId().getAssocietedCpf()))).isPresent()) {
             throw new ActionNotAllowedException(messageSource.getMessage("vote.cpf-already-voted",
